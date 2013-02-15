@@ -12,6 +12,7 @@ from tgext.admin.controller import AdminController
 
 from turbogag.lib.base import BaseController
 from turbogag.controllers.error import ErrorController
+from turbogag.controllers.submissions import SubmissionsController
 
 __all__ = ['RootController']
 
@@ -34,6 +35,7 @@ class RootController(BaseController):
     admin = AdminController(model, DBSession, config_type=TGAdminConfig)
 
     error = ErrorController()
+    submissions = SubmissionsController()
 
     def _before(self, *args, **kw):
         tmpl_context.project_name = "turbogag"

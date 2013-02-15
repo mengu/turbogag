@@ -60,3 +60,4 @@ def init_model(engine):
 
 # Import your model modules here.
 from turbogag.model.auth import User, Group, Permission
+from turbogag.model.submission import Submission, Vote, Comment
