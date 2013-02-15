@@ -74,13 +74,22 @@ Before moving on making the application work in the browser, let's just create t
     from sqlalchemy.types import BigInteger, Unicode, UnicodeText, DateTime
 
     from turbogag.model import DeclarativeBase, metadata, DBSession
+    
+    class Channel(DeclarativeBase):
+        __tablename__ = "channels"
+        
+        id = Column(BigInteger)
+        channel_name = Column(Unicode)
+        
 
     class Submission(DeclarativeBase):
         __tablename__ = "submissions"
 
         id = Column(BigInteger, primary_key=True)
+        channel_id = Column(ForeignKey("channels.id"))
         title = Column(Unicode)
         content = Column(UnicodeText)
+        
 
 
     class Vote(DeclarativeBase):
@@ -114,7 +123,7 @@ But that did only generate authentication related tables? How come it didn't gen
 
     # add to the end of model/__init__.py
     from turbogag.model.auth import User, Group, Permission
-    from turbogag.model.submission import Submission, Vote, Comment
+    from turbogag.model.submission import Channel, Submission, Vote, Comment
 
 Now re-run the "paster setup-app development.ini" command and you will see a stream of SQLAlchemy CREATE TABLE output.
 

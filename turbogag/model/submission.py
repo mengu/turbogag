@@ -6,10 +6,17 @@ from sqlalchemy.types import BigInteger, Unicode, UnicodeText, DateTime
 
 from turbogag.model import DeclarativeBase, metadata, DBSession
 
+class Channel(DeclarativeBase):
+    __tablename__ = "channels"
+    
+    id = Column(BigInteger, primary_key=True)
+    channel_name = Column(Unicode)
+
 class Submission(DeclarativeBase):
     __tablename__ = "submissions"
 
     id = Column(BigInteger, primary_key=True)
+    channel_id = Column(ForeignKey("channels.id"))
     title = Column(Unicode)
     content = Column(UnicodeText)
 
