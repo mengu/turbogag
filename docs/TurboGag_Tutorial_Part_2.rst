@@ -68,6 +68,7 @@ We are going to create a submissions controller but first let's decide what acti
 
 In the code above, we have created class methods named "new", "create", "edit", "update" and "destroy". This class methods will be available to the users in the form of http://turbogag.com/submissions/{method_name}
 
+
 Embedding new controllers
 ---------------
 If you tried accessing one of these pages via the browser, you will get a 404 error. In order to access those controllers, you have to introduce them to the RootController. Open your controllers/root.py file and add the following line as an attribute.
@@ -78,4 +79,24 @@ If you tried accessing one of these pages via the browser, you will get a 404 er
     from turbogag.controllers.submissions import SubmissionsController
     submissions = SubmissionsController()
 
-Since we have our controllers working for us, we can start building our forms and templates.
+Now if you re-visit http://127.0.0.1:8080/submissions/new you will be able to access this controller action. You will get an another error that we will fix in the next steps.
+
+
+Something wicked comes this way
+---------------
+If you have used Ruby on Rails, Django, Pylons or Pyramid there is a question in your head right from the beginning. I know that. Been there, done that. Where do I set my routes? TurboGears does not have a routing mechanism. "Whoa sir, I'm afraid I cannot continue" you might think. No, not yet. TurboGears uses object dispatch which means every attribute in your RootController is a path of the url. Let's inspect the previous url: http://127.0.0.1:8080/submissions/new.
+
+* You visit http://127.0.0.1:8080/submissions/new
+* TurboGears looks to RootController
+* TurboGears finds submissions attribute in RootController
+* If it does not find an attribute or a method named submissions, it returns 404.
+* TurboGears calls that attribute
+* TurboGears look for another attribute "new" in SubmissionsController
+* TurboGears returns it.
+
+This basically means that you don't need to setup any routing for your application. Yes, that's right, that is totally cool.
+
+Creating templates
+---------------
+Now that we have our controllers working for us, we can start building our forms and templates and fix all those errors. 
+
