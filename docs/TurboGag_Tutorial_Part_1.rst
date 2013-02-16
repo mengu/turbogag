@@ -13,6 +13,24 @@ Since Reddit is already open sourced we are going to teach you how to build a 9g
 
 By reading this tutorial, you hereby acknowledge you have a working TurboGears installation. It sounded like very enterprisey, didn't it? Fear not, installing TurboGears will only take a few minutes depending on your internet connection.
 
+Requirements before installation
+---------------
+You need Python 2.x and virtualenv in your system in order to install TurboGears.
+
+    1. `Download Python <http://www.python.org/getit/>`_
+
+    2. `Install Python Setuptools <http://pypi.python.org/pypi/setuptools#installation-instructions>`_
+    
+    3. `Install virtualenv <http://www.virtualenv.org/en/latest/>`_
+
+
+Why virtualenv?
+~~~~~~~~~~~~~~~~~~~~~~
+Often it's the case that the Python packages in your system path might clash. Let's say a package called X has a dependency Y. Another package called Z depends on Y as well but to a newer version of Y. When you install the newer Y, the library X stops working because Y has a change that breaks it. In order to prevent this, you create a virtual environment which only cares about the Python packages in itself and not the system path. This way it prevents your Python packages clashing and let them work in a harmony you create.
+
+
+Now, let's install TurboGears. We are going to install the latest stable version of TurboGears which is 2.2.2 right now.
+
 ::
 
     # install setuptools
@@ -24,6 +42,8 @@ By reading this tutorial, you hereby acknowledge you have a working TurboGears i
     cd tg2-env
     source bin/activate
     easy_install -i http://tg.gy/current tg.devtools
+
+We are installing TurboGears from the index http://tg.gy/current which has all the TurboGears dependencies with their specific and working versions. It is important that we are specifying the index, otherwise it would install a newer version of any dependency which might not be working with TurboGears.
 
 Creating the project
 ---------------
