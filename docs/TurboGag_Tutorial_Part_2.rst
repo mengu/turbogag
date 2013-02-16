@@ -82,13 +82,13 @@ If you tried accessing one of these pages via the browser, you will get a 404 er
 Now if you re-visit http://127.0.0.1:8080/submissions/new you will be able to access this controller action. You will get an another error that we will fix in the next steps.
 
 
-Something wicked comes this way
+Something exposed comes this way
 ---------------
 If you have used Ruby on Rails, Django, Pylons or Pyramid there is a question in your head right from the beginning. I know that. Been there, done that. Where do I set my routes? TurboGears does not have a routing mechanism. "Whoa sir, I'm afraid I cannot continue" you might think. No, not yet. TurboGears uses object dispatch which means every attribute in your RootController is a path of the url. Let's inspect the previous url: http://127.0.0.1:8080/submissions/new.
 
 * You visit http://127.0.0.1:8080/submissions/new
-* TurboGears looks at RootController
-* It finds submissions attribute in RootController
+* TurboGears looks at the RootController
+* It looks for the submissions attribute in RootController
 * If it does not find an attribute or a method named submissions, it returns 404.
 * If it finds it TurboGears calls that attribute
 * It looks for another attribute "new" in SubmissionsController
