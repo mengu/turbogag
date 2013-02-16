@@ -13,14 +13,14 @@ Since Reddit is already open sourced we are going to teach you how to build a 9g
 
 By reading this tutorial, you hereby acknowledge you have a working TurboGears installation.
 
-Creating the project:
+Creating the project
 ---------------
 
 There are many options for you to quickstart a TurboGears project as however you wish. For example, you can disable authentication for a project, or use Mako or Jinja for templating or generate just a single file application. For more information run the `paster quickstart -h` command.
 
 For the TurboGag project, we are going to use Jinja templates and the built-in authentication and authorization. Let's generate our project.
 
-.. highlight::bash
+::
 
     paster quickstart -a -j TurboGag
   
@@ -31,7 +31,7 @@ Where to create the project?
 
 As you remember from installing TurboGears, you have to create a virtual environment. You should run the command above in that virtual environment right after activating it. For example, /home/user/projects is a good directory to keep your projects and virtual environments.
 
-The Application Skeleton
+The application skeleton
 ---------------
 
 Your layout of TurboGag application will be something like the following image. The skeleton should make sense to you since controllers directory is where you create your controller classes and the same applies for models and templates.
@@ -87,10 +87,11 @@ Before moving on making the application work in the browser, let's just create t
 
         id = Column(BigInteger, primary_key=True)
         channel_id = Column(ForeignKey("channels.id"))
+        content_type = Column(Unicode)
         title = Column(Unicode)
-        content = Column(UnicodeText)
+        image_url = Column(Unicode)
+        video_url = Column(Unicode)
         
-
 
     class Vote(DeclarativeBase):
         __tablename__ = "votes"

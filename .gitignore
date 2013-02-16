@@ -1,3 +1,4 @@
+.DS_Store
 *.py[co]
 
 # Default development database
@@ -9,6 +10,7 @@ data/*
 # Packages
 *.egg
 *.egg-info
+*.egg-info/
 dist
 build
 

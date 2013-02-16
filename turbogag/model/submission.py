@@ -12,13 +12,16 @@ class Channel(DeclarativeBase):
     id = Column(BigInteger, primary_key=True)
     channel_name = Column(Unicode)
 
+
 class Submission(DeclarativeBase):
     __tablename__ = "submissions"
 
     id = Column(BigInteger, primary_key=True)
     channel_id = Column(ForeignKey("channels.id"))
+    content_type = Column(Unicode)
     title = Column(Unicode)
-    content = Column(UnicodeText)
+    image_url = Column(Unicode)
+    video_url = Column(Unicode)
 
 
 class Vote(DeclarativeBase):
