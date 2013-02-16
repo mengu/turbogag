@@ -6,12 +6,14 @@ from tg import predicates
 
 from turbogag.lib.base import BaseController
 from turbogag.model import DBSession, metadata
+from turbogag.model.submission import Channel, Submission, Vote, Comment
 
 class SubmissionsController(BaseController):
 
     @expose("turbogag.templates.submissions.new")
     def new(self):
-        return dict()
+        channels = DBSession.query(Channel).all()
+        return dict(channels=channels)
 
     @expose()
     def create(self, title, content):

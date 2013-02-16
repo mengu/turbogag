@@ -1,0 +1,51 @@
+{% extends "master.jinja" %}
+
+{% block master_title %}Upload fun{% endblock %}
+
+{% block contents %}
+
+	<ul class="nav nav-tabs" id="formTab">
+		<li class="active"><a href="#pic" data-toggle="tab">Picture</a></li>
+		<li><a href="#video" data-toggle="tab">Video</a></li>
+	</ul>
+
+
+	<div class="tab-content">
+		<div id="pic" class="tab-pane active">
+			<form class="form-horizontal" method="post" action="{{ url("/submissions/create") }}">
+				<div class="control-group">
+					<label class="control-label" for="title">Post Title:</label>
+					<div class="controls">
+						<input type="text" name="title" class="span5" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="image_url">Image URL:</label>
+					<div class="controls">
+						<input type="text" name="image_url" class="span5" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="channel">Channel:</label>
+					<div class="controls">
+						<div class="btn-group" data-toggle="buttons-checkbox">
+							{% for channel in channels %}
+							<button type="button" class="btn btn-primary">{{ channel.channel_name }}</button>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+
+			</form>
+		</div>
+		<div id="video" class="tab-pane">
+		</div>
+	</div>
+
+	<script type="text/javascript">
+	$(function(){
+		$("#formTab").tab();
+	});
+	</script>
+
+{% endblock %}
