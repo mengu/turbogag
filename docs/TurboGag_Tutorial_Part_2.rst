@@ -87,12 +87,12 @@ Something wicked comes this way
 If you have used Ruby on Rails, Django, Pylons or Pyramid there is a question in your head right from the beginning. I know that. Been there, done that. Where do I set my routes? TurboGears does not have a routing mechanism. "Whoa sir, I'm afraid I cannot continue" you might think. No, not yet. TurboGears uses object dispatch which means every attribute in your RootController is a path of the url. Let's inspect the previous url: http://127.0.0.1:8080/submissions/new.
 
 * You visit http://127.0.0.1:8080/submissions/new
-* TurboGears looks to RootController
-* TurboGears finds submissions attribute in RootController
+* TurboGears looks at RootController
+* It finds submissions attribute in RootController
 * If it does not find an attribute or a method named submissions, it returns 404.
-* TurboGears calls that attribute
-* TurboGears look for another attribute "new" in SubmissionsController
-* TurboGears returns it.
+* If it finds it TurboGears calls that attribute
+* It looks for another attribute "new" in SubmissionsController
+* It returns it.
 
 This basically means that you don't need to setup any routing for your application. Yes, that's right, that is totally cool.
 

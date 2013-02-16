@@ -11,7 +11,19 @@ Since Reddit is already open sourced we are going to teach you how to build a 9g
 * Using TurboGears admin panel.
 * Using SQLAlchemy.
 
-By reading this tutorial, you hereby acknowledge you have a working TurboGears installation.
+By reading this tutorial, you hereby acknowledge you have a working TurboGears installation. It sounded like very enterprisey, didn't it? Fear not, installing TurboGears will only take a few minutes depending on your internet connection.
+
+::
+
+    # install setuptools
+    sudo apt-get install python-setuptools
+    # install virtualenv
+    sudo easy_install virtualenv
+    cd ~/projects
+    virtualenv --no-site-packages tg2-env
+    cd tg2-env
+    source bin/activate
+    easy_install -i http://tg.gy/current tg.devtools
 
 Creating the project
 ---------------
