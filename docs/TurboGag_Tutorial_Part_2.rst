@@ -94,9 +94,10 @@ If you have used Ruby on Rails, Django, Pylons or Pyramid there is a question in
 * It looks for another attribute "new" in SubmissionsController
 * It returns it.
 
-This basically means that you don't need to setup any routing for your application. Yes, that's right, that is totally cool.
+This basically means that you don't need to setup any routing for your application. Yes, that's right, that is totally cool. The expose decorator exposes that controller method to the web. If you don't decorate a method with "expose", it won't be accessible to the web and will just be a callable of your class.
+
 
 Creating templates
 ---------------
-Now that we have our controllers working for us, we can start building our forms and templates and fix all those errors. 
+Now that we have our controllers working for us, we can start building our forms and templates and fix all those errors. When adding new posts, we will ask the user to select the channels he wants so how about we add some channels before the templates? Should we enjoy ourselves a little bit of TurboGears shell?
 

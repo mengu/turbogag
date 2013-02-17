@@ -103,21 +103,21 @@ Before moving on making the application work in the browser, let's just create t
     """Submission model module."""
 
     from sqlalchemy import Table, ForeignKey, Column
-    from sqlalchemy.types import BigInteger, Unicode, UnicodeText, DateTime
+    from sqlalchemy.types import Integer, Unicode, UnicodeText, DateTime
 
     from turbogag.model import DeclarativeBase, metadata, DBSession
     
     class Channel(DeclarativeBase):
         __tablename__ = "channels"
         
-        id = Column(BigInteger)
+        id = Column(Integer)
         channel_name = Column(Unicode)
         
 
     class Submission(DeclarativeBase):
         __tablename__ = "submissions"
 
-        id = Column(BigInteger, primary_key=True)
+        id = Column(Integer, primary_key=True)
         channel_id = Column(ForeignKey("channels.id"))
         content_type = Column(Unicode)
         title = Column(Unicode)
@@ -128,7 +128,7 @@ Before moving on making the application work in the browser, let's just create t
     class Vote(DeclarativeBase):
         __tablename__ = "votes"
 
-        id = Column(BigInteger, primary_key=True)
+        id = Column(Integer, primary_key=True)
         submission_id = Column(ForeignKey("submissions.id"))
         user_id = Column(ForeignKey("tg_user.user_id"))
         dateline = Column(DateTime)
@@ -137,7 +137,7 @@ Before moving on making the application work in the browser, let's just create t
     class Comment(DeclarativeBase):
         __tablename__ = "comments"
 
-        id = Column(BigInteger, primary_key=True)
+        id = Column(Integer, primary_key=True)
         submission_id = Column(ForeignKey("submissions.id"))
         user_id = Column(ForeignKey("tg_user.user_id"))
         comment_text = Column(UnicodeText)
@@ -159,6 +159,83 @@ But that did only generate authentication related tables? How come it didn't gen
     from turbogag.model.submission import Channel, Submission, Vote, Comment
 
 Now re-run the "paster setup-app development.ini" command and you will see a stream of SQLAlchemy CREATE TABLE output.
+
+The TurboGears shell
+---------------
+::
+    
+    paster shell development.ini
+
+This command lets you enter the TurboGears shell. Within this shell TurboGears starts a Python shell with your package included. Do you think it's time to insert some channels? Type the following into your shell.
+
+::
+
+    from turbogag.model import DBSession, Channel
+    import transaction
+
+    cool = Channel(channel_name="cool")
+    cute = Channel(channel_name="cute")
+    lol = Channel(channel_name="lol")
+    want = Channel(channel_name="want")
+    wtf = Channel(channel_name="wtf")
+    DBSession.add_all([cool, cute, lol, want, wtf])
+    DBSession.flush()
+    transaction.commit()
+
+This way we are creating our lovely channels. Would you like a taste of querying SQLAlchemy models? Yes, you would. You are dying to find out how this thing works. Let's just slow down. What would you want to learn? 
+
+Select all channels
+~~~~~~~~~~~~~~~
+
+::
+
+    # this will select all channels
+    DBSession.query(Channel).all()
+
+Select a channel with id 2
+~~~~~~~~~~~~~~
+
+::
+
+    DBSession.query(Channel).filter(Channel.id == 2).one()
+    # or
+    DBSession.query(Channel).filter(id=2).first()
+
+
+Order the channels
+~~~~~~~~~~~~~~~
+
+::
+
+    # order channels by channel id descending
+    DBSession.query(Channel).order_by(Channel.id.desc()).all()
+
+
+Select only 3 channels
+~~~~~~~~~~~~~~~
+
+::
+
+    # select 3 channels ordered by channel names ascending
+    DBSession.query(Channel).order_by(Channel.channel_name.asc()).limit(3).all()
+
+Update a channel name
+~~~~~~~~~~~~~~~
+
+::
+
+    channel = DBSession.query(Channel).filter_by(id=1).one()
+    channel.channel_name = "so cool"
+    DBSession.add(channel)
+
+Delete a channel
+~~~~~~~~~~~~~~~
+
+::
+
+    DBSession.query(Channel).filter_by(id=6).delete()
+
+No! That is not all you can do with SQLAlchemy. You can create many more complex queries with it. SQLAlchemy is a very very powerful tool. If you would like to play with it, I will glady wait. Go read some tutorials or try to create that SQL that you could not create with other ORMs. SQLAlchemy will not disappoint you.
 
 Next, we are going to work on controllers and views. This is all for now. Take a deep breath and enjoy what you have accomplished so far.
 
