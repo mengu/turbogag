@@ -48,7 +48,7 @@ We are installing TurboGears from the index http://tg.gy/current which has all t
 Creating the project
 ---------------
 
-There are many options for you to quickstart a TurboGears project as however you wish. For example, you can disable authentication for a project, or use Mako or Jinja for templating or generate just a single file application. For more information run the `paster quickstart -h` command.
+There are many options for you to quickstart a TurboGears project as however you wish. For example, you can disable authentication for a project, or use Mako or Jinja for templating or generate just a single file application. For more information run the ``paster quickstart -h`` command.
 
 For the TurboGag project, we are going to use Jinja templates and the built-in authentication and authorization. Let's generate our project.
 
@@ -110,7 +110,7 @@ Before moving on making the application work in the browser, let's just create t
     class Channel(DeclarativeBase):
         __tablename__ = "channels"
         
-        id = Column(Integer)
+        id = Column(Integer, primary_key=True)
         channel_name = Column(Unicode)
         
 
@@ -144,13 +144,13 @@ Before moving on making the application work in the browser, let's just create t
         dateline = Column(DateTime)
 
 
-"Where do I add the models?" you wonder. Create a Python file called "submission.py" in turbogag/model directory and write the down the codes from above. I hear the next question that pops in your head. How do I generate my models and my database? TurboGears extensions for paster are very rich. You can generate your models and databases with:
+"Where do I add the models?" you wonder. Create a Python file called ``submission.py`` in ``turbogag/model`` directory and write the down the codes from above. I hear the next question that pops in your head. How do I generate my models and my database? TurboGears extensions for paster are very rich. You can generate your models and databases with:
 
 ::
 
     paster setup-app development.ini
 
-But that did only generate authentication related tables? How come it didn't generate the other tables? It's because that we haven't imported our models from submission.py to model/__init__.py file. Let's do it.
+But that did only generate authentication related tables? How come it didn't generate the other tables? It's because that we haven't imported our models from ``turbogag/model/submission.py`` to ``turbogag/model/__init__.py`` file. Let's do it.
 
 ::
 
