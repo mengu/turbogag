@@ -103,7 +103,7 @@ Before moving on making the application work in the browser, let's just create t
     """Submission model module."""
 
     from sqlalchemy import Table, ForeignKey, Column
-    from sqlalchemy.types import Integer, Unicode, UnicodeText, DateTime
+    from sqlalchemy.types import Integer, Unicode, UnicodeText, DateTime, Boolean
 
     from turbogag.model import DeclarativeBase, metadata, DBSession
     
@@ -123,6 +123,7 @@ Before moving on making the application work in the browser, let's just create t
         title = Column(Unicode)
         image_url = Column(Unicode)
         video_url = Column(Unicode)
+        is_active = Column(Boolean)
         
 
     class Vote(DeclarativeBase):

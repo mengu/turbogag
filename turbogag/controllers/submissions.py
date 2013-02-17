@@ -16,35 +16,21 @@ class SubmissionsController(BaseController):
         return dict(channels=channels)
 
     @expose()
-    def create(self, title, content):
-        submission = Submission(title=title, content=content, is_active=False)
+    def create(self, title, content_type, image_url="", video_url=""):
+        submission = Submission(title=title, content_type=content_type, image_url=image_url, video_url=video_url, is_active=False)
         DBSession.add(submission)
         DBSession.flush()
-        return redirect("/submissions/%s" % submission.id)
+        flash("Your submission has been received. It will be approved in a short notice.")
+        return redirect("/")
 
     @expose("turbogag.templates.submissions.edit")
     def edit(self, submission_id):
-        try:
-            submission = DBSession.query(Submission).filter(Submission.id == submission_id).one()
-            return dict(submission=submission)
-        except:
-            return redirect("/")
+        pass
 
     @expose()
     def update(self, id, title, content, status):
-        try:
-            submission = DBSession.query(Submission).filter_by(id=id).one()
-            submission.title = title
-            submission.content = content
-            submission.status = status
-            DBSession.add(submission)
-            DBSession.flush()
-            return redirect("/submissions/%s" % id)
-
-        except:
-            return redirect("/")
+        pass
 
     @expose()
     def delete(self, id):
-        DBSession.query(Submission).filter_by(id=id).delete()
-        return redirect("/")
+        pass

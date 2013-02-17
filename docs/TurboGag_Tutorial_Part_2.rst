@@ -15,7 +15,7 @@ We are going to create a submissions controller but first let's decide what acti
 
 .. code:: python
 
-    # -*- coding: utf-8 -*-
+        # -*- coding: utf-8 -*-
     """Submissions controller module"""
 
     from tg import expose, redirect, validate, flash
@@ -33,45 +33,37 @@ We are going to create a submissions controller but first let's decide what acti
             return dict(channels=channels)
 
         @expose()
-        def create(self, title, content):
-            submission = Submission(title=title, content=content, is_active=False)
+        def create(self, title, content_type, image_url="", video_url=""):
+            submission = Submission(title=title, content_type=content_type, image_url=image_url, video_url=video_url, is_active=False)
             DBSession.add(submission)
             DBSession.flush()
-            return redirect("/submissions/%s" % submission.id)
+            flash("Your submission has been received. It will be approved in a short notice.")
+            return redirect("/")
 
         @expose("turbogag.templates.submissions.edit")
         def edit(self, submission_id):
-            try:
-                submission = DBSession.query(Submission).filter(Submission.id == submission_id).one()
-                return dict(submission=submission)
-            except:
-                return redirect("/")
+            pass
 
         @expose()
         def update(self, id, title, content, status):
-            try:
-                submission = DBSession.query(Submission).filter_by(id=id).one()
-                submission.title = title
-                submission.content = content
-                submission.status = status
-                DBSession.add(submission)
-                DBSession.flush()
-                return redirect("/submissions/%s" % id)
-
-            except:
-                return redirect("/")
+            pass
 
         @expose()
         def delete(self, id):
-            DBSession.query(Submission).filter_by(id=id).delete()
-            return redirect("/")
+            pass
 
-In the code above, we have created class methods named "new", "create", "edit", "update" and "destroy". This class methods will be available to the users in the form of http://turbogag.com/submissions/{method_name}
+In the code above, we have created class methods named "new", "create", "edit", "update" and "destroy". This class methods will be available to the users in the form of http://turbogag.com/submissions/{method_name} however for now there are only two actions available for our users to play with. 
+
+1. In the ``new`` method we are getting a list of channels from the database and passing the channels list as a ``local template variable`` to our new.jinja template.
+2. In the ``create`` method, we let our users send request parameters ``title``, ``content_type``, ``image_url`` and ``video_url``.
+3. We are creating an instance of our ``Submission model`` and saving it to the database.
+4. We are redirecting the user to our index page with a notification we will be displaying.
+
 
 
 Embedding new controllers
 ---------------
-If you tried accessing one of these pages via the browser, you will get a 404 error. In order to access those controllers, you have to introduce them to the RootController. Open your controllers/root.py file and add the following line as an attribute.
+If you tried accessing one of these pages via the browser, you will get a 404 error. In order to access those controllers, you have to introduce them to the RootController. Open your ``turbogag/controllers/root.py`` file and add the following line as an attribute.
 
 .. code:: python
 
@@ -125,3 +117,99 @@ In the `turbogag/templates` folder, create a new directory called `submissions` 
     mkdir submissions
     touch submissions/__init__.py
     touch Submissions/new.jinja
+
+The following code snippet goes to ``templates/submissions/new.jinja`` file:
+
+.. code:: jinja
+
+    {% extends "master.jinja" %}
+
+    {% block master_title %}Upload fun{% endblock %}
+
+    {% block contents %}
+
+        <ul class="nav nav-tabs" id="formTab">
+            <li class="active"><a href="#pic" data-toggle="tab">Picture</a></li>
+            <li><a href="#video" data-toggle="tab">Video</a></li>
+        </ul>
+
+
+        <div class="tab-content">
+            <div id="pic" class="tab-pane active">
+                <form class="form-horizontal" method="post" action="{{ url("/submissions/create") }}">
+                    <input type="hidden" name="content_type" value="image" />
+                    <div class="control-group">
+                        <label class="control-label" for="title">Post Title:</label>
+                        <div class="controls">
+                            <input type="text" name="title" class="span5" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="image_url">Image URL:</label>
+                        <div class="controls">
+                            <input type="text" name="image_url" class="span5" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="channel">Channel:</label>
+                        <div class="controls">
+                            <div class="btn-group" data-toggle="buttons-radio">
+                                {% for channel in channels %}
+                                <button type="button" class="btn btn-primary">{{ channel.channel_name }}</button>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="video" class="tab-pane">
+                <form class="form-horizontal" method="post" action="{{ url("/submissions/create") }}">
+                    <input type="hidden" name="content_type" value="video" />
+                    <div class="control-group">
+                        <label class="control-label" for="title">Video Title:</label>
+                        <div class="controls">
+                            <input type="text" name="title" class="span5" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="image_url">Video URL:</label>
+                        <div class="controls">
+                            <input type="text" name="video_url" class="span5" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="channel">Channel:</label>
+                        <div class="controls">
+                            <div class="btn-group" data-toggle="buttons-radio">
+                                {% for channel in channels %}
+                                <button type="button" class="btn btn-primary">{{ channel.channel_name }}</button>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+        $(function(){
+            $("#formTab").tab();
+        });
+        </script>
+
+    {% endblock %}
+
+Now visit http://127.0.0.1:8080/submissions/new and try creating a new submission. Your page will look like this:
+
+
+

@@ -2,7 +2,7 @@
 """Submission model module."""
 
 from sqlalchemy import Table, ForeignKey, Column
-from sqlalchemy.types import Integer, Unicode, UnicodeText, DateTime
+from sqlalchemy.types import Integer, Unicode, UnicodeText, DateTime, Boolean
 
 from turbogag.model import DeclarativeBase, metadata, DBSession
 
@@ -22,6 +22,7 @@ class Submission(DeclarativeBase):
     title = Column(Unicode)
     image_url = Column(Unicode)
     video_url = Column(Unicode)
+    is_active = Column(Boolean)
 
 
 class Vote(DeclarativeBase):
