@@ -99,5 +99,26 @@ This basically means that you don't need to setup any routing for your applicati
 
 Creating templates
 ---------------
-Now that we have our controllers working for us, we can start building our forms and templates and fix all those errors. When adding new posts, we will ask the user to select the channels he wants so how about we add some channels before the templates? Should we enjoy ourselves a little bit of TurboGears shell?
+Now that we have our controllers working for us, we can start building our forms and templates and fix all those errors. 
 
+A taste of jQuery and Twitter Bootstrap
+~~~~~~~~~~~~~~~
+TurboGears 2.x comes with Twitter Bootstrap however for JavaScript goodness to work, we will include two libraries in our `master.jinja` template -which can be found at `turbogag/templates` directory-. Right before the `</head>` line in master.jinja file, add these two lines:
+
+::
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ tg.url('/javascript/bootstrap.js') }}"></script>
+
+
+Creating a new template
+~~~~~~~~~~~~~~~
+In the `turbogag/templates` folder, create a new directory called `submissions` and create two files. 1) __init__.py so it becomes a package. 2) new.jinja file.
+
+::
+
+    cd ~/projects/tg2-env/turbogag
+    cd turbogag/templates
+    mkdir submissions
+    touch submissions/__init__.py
+    touch Submissions/new.jinja
