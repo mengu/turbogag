@@ -13,7 +13,7 @@ We are going to create a submissions controller but first let's decide what acti
 * Users will be able to comment on submissions.
 
 
-::
+.. code:: python
 
     # -*- coding: utf-8 -*-
     """Submissions controller module"""
@@ -73,7 +73,7 @@ Embedding new controllers
 ---------------
 If you tried accessing one of these pages via the browser, you will get a 404 error. In order to access those controllers, you have to introduce them to the RootController. Open your controllers/root.py file and add the following line as an attribute.
 
-::
+.. code:: python
 
     # import the controller first
     from turbogag.controllers.submissions import SubmissionsController
@@ -103,9 +103,9 @@ Now that we have our controllers working for us, we can start building our forms
 
 A taste of jQuery and Twitter Bootstrap
 ~~~~~~~~~~~~~~~
-TurboGears 2.x comes with Twitter Bootstrap however for JavaScript goodness to work, we will include two libraries in our `master.jinja` template -which can be found at `turbogag/templates` directory-. Right before the `</head>` line in master.jinja file, add these two lines:
+TurboGears 2.x comes with Twitter Bootstrap however for JavaScript goodness to work, we will include two libraries in our ``master.jinja`` template -which can be found at ``turbogag/templates`` directory-. Right before the ``</head>`` line in master.jinja file, add these two lines:
 
-::
+.. code:: html
 
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript" src="{{ tg.url('/javascript/bootstrap.js') }}"></script>
@@ -113,9 +113,12 @@ TurboGears 2.x comes with Twitter Bootstrap however for JavaScript goodness to w
 
 Creating a new template
 ~~~~~~~~~~~~~~~
-In the `turbogag/templates` folder, create a new directory called `submissions` and create two files. 1) __init__.py so it becomes a package. 2) new.jinja file.
+In the `turbogag/templates` folder, create a new directory called `submissions` and create two files. 
 
-::
+1) __init__.py so it becomes a package. 
+2) new.jinja file.
+
+.. code:: bash
 
     cd ~/projects/tg2-env/turbogag
     cd turbogag/templates

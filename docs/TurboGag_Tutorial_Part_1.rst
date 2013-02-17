@@ -31,7 +31,7 @@ Often it's the case that the Python packages in your system path might clash. Le
 
 Now, let's install TurboGears. We are going to install the latest stable version of TurboGears which is 2.2.2 right now.
 
-::
+.. code:: bash
 
     # install setuptools
     sudo apt-get install python-setuptools
@@ -52,7 +52,7 @@ There are many options for you to quickstart a TurboGears project as however you
 
 For the TurboGag project, we are going to use Jinja templates and the built-in authentication and authorization. Let's generate our project.
 
-::
+.. code:: bash
 
     paster quickstart -a -j TurboGag
   
@@ -76,7 +76,7 @@ Running the application
 ------------
 Before starting the work on the application, let's take a quick look at what the quickstarted application has done for us. Run the following command in order to serve the application.
 
-::
+.. code::python
 
     python setup.py develop
     paster serve development.ini
@@ -97,7 +97,7 @@ Creating the models
 ---------------
 Before moving on making the application work in the browser, let's just create the models we are going to use. In TurboGag application we will have a Submission model, a User model, a Vote model and a Comment model. Luckily we have user model already generated for us.
 
-::
+.. code::python
 
     # -*- coding: utf-8 -*-
     """Submission model module."""
@@ -146,13 +146,13 @@ Before moving on making the application work in the browser, let's just create t
 
 "Where do I add the models?" you wonder. Create a Python file called ``submission.py`` in ``turbogag/model`` directory and write the down the codes from above. I hear the next question that pops in your head. How do I generate my models and my database? TurboGears extensions for paster are very rich. You can generate your models and databases with:
 
-::
+.. code:: bash
 
     paster setup-app development.ini
 
 But that did only generate authentication related tables? How come it didn't generate the other tables? It's because that we haven't imported our models from ``turbogag/model/submission.py`` to ``turbogag/model/__init__.py`` file. Let's do it.
 
-::
+.. code:: python
 
     # add to the end of model/__init__.py
     from turbogag.model.auth import User, Group, Permission
@@ -168,7 +168,7 @@ The TurboGears shell
 
 This command lets you enter the TurboGears shell. Within this shell TurboGears starts a Python shell with your package included. Do you think it's time to insert some channels? Type the following into your shell.
 
-::
+.. code:: bash
 
     from turbogag.model import DBSession, Channel
     import transaction
@@ -187,7 +187,7 @@ This way we are creating our lovely channels. Would you like a taste of querying
 Select all channels
 ~~~~~~~~~~~~~~~
 
-::
+.. code:: python
 
     # this will select all channels
     DBSession.query(Channel).all()
@@ -195,7 +195,7 @@ Select all channels
 Select a channel with id 2
 ~~~~~~~~~~~~~~
 
-::
+.. code:: python
 
     DBSession.query(Channel).filter(Channel.id == 2).one()
     # or
@@ -205,7 +205,7 @@ Select a channel with id 2
 Order the channels
 ~~~~~~~~~~~~~~~
 
-::
+.. code:: python
 
     # order channels by channel id descending
     DBSession.query(Channel).order_by(Channel.id.desc()).all()
@@ -214,7 +214,7 @@ Order the channels
 Select only 3 channels
 ~~~~~~~~~~~~~~~
 
-::
+.. code:: python
 
     # select 3 channels ordered by channel names ascending
     DBSession.query(Channel).order_by(Channel.channel_name.asc()).limit(3).all()
@@ -222,7 +222,7 @@ Select only 3 channels
 Update a channel name
 ~~~~~~~~~~~~~~~
 
-::
+.. code:: python
 
     channel = DBSession.query(Channel).filter_by(id=1).one()
     channel.channel_name = "so cool"
@@ -231,7 +231,7 @@ Update a channel name
 Delete a channel
 ~~~~~~~~~~~~~~~
 
-::
+.. code:: python
 
     DBSession.query(Channel).filter_by(id=6).delete()
 
