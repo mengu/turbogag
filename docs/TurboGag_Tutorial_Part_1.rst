@@ -97,7 +97,7 @@ Creating the models
 ---------------
 Before moving on making the application work in the browser, let's just create the models we are going to use. In TurboGag application we will have a Submission model, a User model, a Vote model and a Comment model. Luckily we have user model already generated for us.
 
-.. code::python
+.. code:: python
 
     # -*- coding: utf-8 -*-
     """Submission model module."""
