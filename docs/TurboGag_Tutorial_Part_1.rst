@@ -3,7 +3,7 @@ TurboGag Tutorial
 
 Let's learn TurboGears by example. 
 
-Since Reddit is already open sourced we are going to teach you how to build a 9gag clone with TurboGears. After this tutorial you will learn:
+Since Reddit is already open sourced we are going to teach you how to build a 9gag clone with TurboGears. We are going to let our users share and like funny and interesting photos and videos. Our users will be able to signup via Facebook and vote the submissions. After you are done with this tutorial you will learn:
 
 * Working with built-in authentication and authorization.
 * Working with forms and validation.
