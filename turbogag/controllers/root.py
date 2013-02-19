@@ -13,6 +13,8 @@ from tgext.admin.controller import AdminController
 from turbogag.lib.base import BaseController
 from turbogag.controllers.error import ErrorController
 from turbogag.controllers.submissions import SubmissionsController
+from turbogag.model import DBSession
+from turbogag.model.submission import Submission
 
 __all__ = ['RootController']
 
@@ -43,7 +45,8 @@ class RootController(BaseController):
     @expose('turbogag.templates.index')
     def index(self):
         """Handle the front-page."""
-        return dict(page='index')
+        submissions = DBSession.query(Submission).filter_by(is_active=True).all()
+        return dict(submissions=submissions)
 
     @expose('turbogag.templates.about')
     def about(self):

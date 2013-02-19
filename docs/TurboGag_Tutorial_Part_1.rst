@@ -103,6 +103,7 @@ Before moving on making the application work in the browser, let's just create t
     """Submission model module."""
 
     from sqlalchemy import Table, ForeignKey, Column
+    from sqlalchemy.orm import relationship
     from sqlalchemy.types import Integer, Unicode, UnicodeText, DateTime, Boolean
 
     from turbogag.model import DeclarativeBase, metadata, DBSession
@@ -118,12 +119,15 @@ Before moving on making the application work in the browser, let's just create t
         __tablename__ = "submissions"
 
         id = Column(Integer, primary_key=True)
+        user_id = Column(ForeignKey("tg_user.user_id"))
         channel_id = Column(ForeignKey("channels.id"))
         content_type = Column(Unicode)
         title = Column(Unicode)
         image_url = Column(Unicode)
         video_url = Column(Unicode)
         is_active = Column(Boolean)
+
+        user = relationship("User")
         
 
     class Vote(DeclarativeBase):

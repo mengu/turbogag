@@ -215,4 +215,18 @@ Now visit http://127.0.0.1:8080/submissions/new and try creating a new submissio
 .. image:: resources/new_submission.png
    :height: 500px
 
+So far so good. Our users are able to post submissions but where do we list the submissions to visitors? Where do we approve the submissions? We are going to do that by modifying the ``index() method`` of ``RootController class`` and ``index.jinja`` template.
 
+
+.. code:: python
+
+    from turbogag.model import DBSession
+    from turbogag.model.submission import Submission
+
+    class RootController(BaseController):
+
+        @expose('turbogag.templates.index')
+        def index(self):
+            """Handle the front-page."""
+            submissions = DBSession.query(Submission).filter_by(is_active=True).all()
+            return dict(submissions=submissions)
