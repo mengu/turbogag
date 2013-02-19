@@ -1,8 +1,8 @@
 TurboGag Tutorial
-===============
+=================
 
 Letting users upload submissions
----------------
+--------------------------------
 Now we are going to let users upload submissions and we are going to enjoy some reddit re-posts. TurboGears controllers are Python classes inheriting from a special class called BaseController. Giving it a meaningful name is important. For example, the Root Controller is the controller class responding to the calls of your requested url path starting with "/" right after your domain. For example http://turbogag.com/submissions automatically maps to a child controller class or a class method called submissions.
 
 We are going to create a submissions controller but first let's decide what actions we are going to have in it. 
@@ -62,7 +62,7 @@ In the code above, we have created class methods named "new", "create", "edit", 
 
 
 Embedding new controllers
----------------
+-------------------------
 If you tried accessing one of these pages via the browser, you will get a 404 error. In order to access those controllers, you have to introduce them to the RootController. Open your ``turbogag/controllers/root.py`` file and add the following line as an attribute.
 
 .. code:: python
@@ -75,7 +75,7 @@ Now if you re-visit http://127.0.0.1:8080/submissions/new you will be able to ac
 
 
 Something exposed comes this way
----------------
+--------------------------------
 If you have used Ruby on Rails, Django, Pylons or Pyramid there is a question in your head right from the beginning. I know that. Been there, done that. Where do I set my routes? TurboGears does not have a routing mechanism. "Whoa sir, I'm afraid I cannot continue" you might think. No, not yet. TurboGears uses object dispatch which means every attribute in your RootController is a path of the url. Let's inspect the previous url: http://127.0.0.1:8080/submissions/new.
 
 * You visit http://127.0.0.1:8080/submissions/new
@@ -90,11 +90,12 @@ This basically means that you don't need to setup any routing for your applicati
 
 
 Creating templates
----------------
+------------------
 Now that we have our controllers working for us, we can start building our forms and templates and fix all those errors. 
 
+
 A taste of jQuery and Twitter Bootstrap
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 TurboGears 2.x comes with Twitter Bootstrap however for JavaScript goodness to work, we will include two libraries in our ``master.jinja`` template -which can be found at ``turbogag/templates`` directory-. Right before the ``</head>`` line in master.jinja file, add these two lines:
 
 .. code:: html
@@ -104,7 +105,7 @@ TurboGears 2.x comes with Twitter Bootstrap however for JavaScript goodness to w
 
 
 Creating a new template
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 In the `turbogag/templates` folder, create a new directory called `submissions` and create two files. 
 
 1) __init__.py so it becomes a package. 
@@ -211,5 +212,7 @@ The following code snippet goes to ``templates/submissions/new.jinja`` file:
 
 Now visit http://127.0.0.1:8080/submissions/new and try creating a new submission. Your page will look like this:
 
+.. image:: resources/new_submission.png
+   :height: 500px
 
 

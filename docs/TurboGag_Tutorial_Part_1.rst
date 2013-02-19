@@ -1,5 +1,5 @@
 TurboGag Tutorial
-===============
+=================
 
 Let's learn TurboGears by example. 
 
@@ -14,7 +14,7 @@ Since Reddit is already open sourced we are going to teach you how to build a 9g
 By reading this tutorial, you hereby acknowledge you have a working TurboGears installation. It sounded like very enterprisey, didn't it? Fear not, installing TurboGears will only take a few minutes depending on your internet connection.
 
 Requirements before installation
----------------
+--------------------------------
 You need Python 2.x and virtualenv in your system in order to install TurboGears.
 
     1. `Download Python <http://www.python.org/getit/>`_
@@ -25,7 +25,7 @@ You need Python 2.x and virtualenv in your system in order to install TurboGears
 
 
 Why virtualenv?
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 Often it's the case that the Python packages in your system path might clash. Let's say a package called X has a dependency Y. Another package called Z depends on Y as well but to a newer version of Y. When you install the newer Y, the library X stops working because Y has a change that breaks it. In order to prevent this, you create a virtual environment which only cares about the Python packages in itself and not the system path. This way it prevents your Python packages clashing and let them work in a harmony you create.
 
 
@@ -46,7 +46,7 @@ Now, let's install TurboGears. We are going to install the latest stable version
 We are installing TurboGears from the index http://tg.gy/current which has all the TurboGears dependencies with their specific and working versions. It is important that we are specifying the index, otherwise it would install a newer version of any dependency which might not be working with TurboGears.
 
 Creating the project
----------------
+--------------------
 
 There are many options for you to quickstart a TurboGears project as however you wish. For example, you can disable authentication for a project, or use Mako or Jinja for templating or generate just a single file application. For more information run the ``paster quickstart -h`` command.
 
@@ -59,12 +59,12 @@ For the TurboGag project, we are going to use Jinja templates and the built-in a
 TurboGears is now generating a Python project named TurboGag with Jinja and authentication. 
 
 Where to create the project?
----------------
+----------------------------
 
 As you remember from installing TurboGears, you have to create a virtual environment. You should run the command above in that virtual environment right after activating it. For example, /home/user/projects is a good directory to keep your projects and virtual environments.
 
 The application skeleton
----------------
+------------------------
 
 Your layout of TurboGag application will be something like the following image. The skeleton should make sense to you since controllers directory is where you create your controller classes and the same applies for models and templates.
 
@@ -84,7 +84,7 @@ Before starting the work on the application, let's take a quick look at what the
 The first command will introduce your application as a package to Python library path so all your imports and access requests will work. The second command will start an HTTP server for you to browse your application. Yes, indeed TurboGears twitter-bootsrapped your application for you in advanced. You can enjoy what it has to offer you.
 
 Setting up the database
----------------
+-----------------------
 Since TurboGears has full support for SQLAlchemy and SQLAlchemy supports almost every database server, this step is going to be *very easy* for you. TurboGears configuration files live in .ini files such as development.ini for development and production.ini for production. Open up your development.ini file and go to line 62. You will see the SQLAlchemy uri for SQLite. By default TurboGears provides you a skeleton for which all the stack is right there for you, waiting for you to do your magic. The line is like the following:
 
 ::
@@ -94,7 +94,7 @@ Since TurboGears has full support for SQLAlchemy and SQLAlchemy supports almost 
 We are more than fine to use SQLite for development purposes however If you want to use MySQL or PostgreSQL, please read `SQLAlchemy documentation page on database uris <http://docs.sqlalchemy.org/en/rel_0_8/core/engines.html#database-urls>`_.
 
 Creating the models
----------------
+-------------------
 Before moving on making the application work in the browser, let's just create the models we are going to use. In TurboGag application we will have a Submission model, a User model, a Vote model and a Comment model. Luckily we have user model already generated for us.
 
 .. code:: python
@@ -161,8 +161,9 @@ But that did only generate authentication related tables? How come it didn't gen
 
 Now re-run the "paster setup-app development.ini" command and you will see a stream of SQLAlchemy CREATE TABLE output.
 
+
 The TurboGears shell
----------------
+--------------------
 ::
     
     paster shell development.ini
@@ -186,7 +187,7 @@ This command lets you enter the TurboGears shell. Within this shell TurboGears s
 This way we are creating our lovely channels. Would you like a taste of querying SQLAlchemy models? Yes, you would. You are dying to find out how this thing works. Let's just slow down. What would you want to learn? 
 
 Select all channels
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
@@ -194,7 +195,7 @@ Select all channels
     DBSession.query(Channel).all()
 
 Select a channel with id 2
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
@@ -204,7 +205,7 @@ Select a channel with id 2
 
 
 Order the channels
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
@@ -213,7 +214,7 @@ Order the channels
 
 
 Select only 3 channels
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
@@ -221,7 +222,7 @@ Select only 3 channels
     DBSession.query(Channel).order_by(Channel.channel_name.asc()).limit(3).all()
 
 Update a channel name
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
@@ -230,7 +231,7 @@ Update a channel name
     DBSession.add(channel)
 
 Delete a channel
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 .. code:: python
 
