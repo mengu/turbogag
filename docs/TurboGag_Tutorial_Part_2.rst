@@ -242,48 +242,6 @@ And this is going to be your ``turbogag/templates/index.jinja`` file:
 
 
     {% block contents %}
-    <style>
-    body { background: #ddd;}
-    .content { background: #fff; }
-    .submission {
-        padding: 20px;
-    }
-    .submission-title {
-        font-size: 31.5px;
-    }
-    .voting {
-        margin-top: 20px;
-    }
-    .votebox {
-        background: #ccc;
-        text-align: center;
-        height: 64px;
-        cursor: pointer;
-    }
-    .votebox:hover {
-        
-    }
-    .votebox img {
-        padding-top: 20px;
-    }
-    .info, .poster {
-        margin-top: 20px;
-    }
-    .comments {
-        background: url({{ url("/images/comments.png") }}) no-repeat 2px;
-        margin-left: -2px; 
-        display: inline-block; 
-        padding-left: 19px; 
-        padding-bottom: 5px;
-    }
-    .likes {
-        background: url({{ url("/images/happy2.png") }}) no-repeat;
-        margin-left: -2px; 
-        display: inline-block; 
-        padding-left: 19px; 
-        padding-bottom: 5px;
-    }
-    </style>
     <div class="row-fluid" >
 
         <div class="span10 content">
