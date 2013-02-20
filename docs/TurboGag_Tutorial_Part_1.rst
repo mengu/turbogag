@@ -73,7 +73,7 @@ Your layout of TurboGag application will be something like the following image. 
 Another good thing for us is that we generated an application with user authentication and authorization. This will help us build the TurboGag application a lot faster. We won't have to deal with logging the user in, checking their permissions, etc. The only thing we are going to do is building a user registration form.
 
 Running the application
-------------
+-----------------------
 Before starting the work on the application, let's take a quick look at what the quickstarted application has done for us. Run the following command in order to serve the application.
 
 .. code::python
@@ -103,17 +103,18 @@ Before moving on making the application work in the browser, let's just create t
     """Submission model module."""
 
     from sqlalchemy import Table, ForeignKey, Column
-    from sqlalchemy.orm import relationship
+    from sqlalchemy.orm import relationship 
     from sqlalchemy.types import Integer, Unicode, UnicodeText, DateTime, Boolean
 
     from turbogag.model import DeclarativeBase, metadata, DBSession
-    
+    from turbogag.model.auth import User
+
     class Channel(DeclarativeBase):
         __tablename__ = "channels"
         
         id = Column(Integer, primary_key=True)
         channel_name = Column(Unicode)
-        
+
 
     class Submission(DeclarativeBase):
         __tablename__ = "submissions"
@@ -127,8 +128,10 @@ Before moving on making the application work in the browser, let's just create t
         video_url = Column(Unicode)
         is_active = Column(Boolean)
 
-        user = relationship("User")
-        
+        user = relationship("User", lazy="dynamic")
+        comments = relationship("Comment", lazy="dynamic")
+        votes = relationship("Vote", lazy="dynamic")
+
 
     class Vote(DeclarativeBase):
         __tablename__ = "votes"
@@ -136,6 +139,7 @@ Before moving on making the application work in the browser, let's just create t
         id = Column(Integer, primary_key=True)
         submission_id = Column(ForeignKey("submissions.id"))
         user_id = Column(ForeignKey("tg_user.user_id"))
+        liked = Column(Boolean)
         dateline = Column(DateTime)
 
 
@@ -147,6 +151,7 @@ Before moving on making the application work in the browser, let's just create t
         user_id = Column(ForeignKey("tg_user.user_id"))
         comment_text = Column(UnicodeText)
         dateline = Column(DateTime)
+
 
 
 "Where do I add the models?" you wonder. Create a Python file called ``submission.py`` in ``turbogag/model`` directory and write the down the codes from above. I hear the next question that pops in your head. How do I generate my models and my database? TurboGears extensions for paster are very rich. You can generate your models and databases with:
@@ -168,7 +173,8 @@ Now re-run the "paster setup-app development.ini" command and you will see a str
 
 The TurboGears shell
 --------------------
-::
+
+.. code:: bash
     
     paster shell development.ini
 

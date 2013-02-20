@@ -45,7 +45,7 @@ class RootController(BaseController):
     @expose('turbogag.templates.index')
     def index(self):
         """Handle the front-page."""
-        submissions = DBSession.query(Submission).filter_by(is_active=True).all()
+        submissions = DBSession.query(Submission).all()
         return dict(submissions=submissions)
 
     @expose('turbogag.templates.about')

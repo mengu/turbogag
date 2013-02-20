@@ -25,10 +25,27 @@ body { background: #ddd;}
     cursor: pointer;
 }
 .votebox:hover {
-
+    
 }
 .votebox img {
     padding-top: 20px;
+}
+.info, .poster {
+    margin-top: 20px;
+}
+.comments {
+    background: url({{ url("/images/comments.png") }}) no-repeat 2px;
+    margin-left: -2px; 
+    display: inline-block; 
+    padding-left: 19px; 
+    padding-bottom: 5px;
+}
+.likes {
+    background: url({{ url("/images/happy2.png") }}) no-repeat;
+    margin-left: -2px; 
+    display: inline-block; 
+    padding-left: 19px; 
+    padding-bottom: 5px;
 }
 </style>
 <div class="row-fluid" >
@@ -43,14 +60,24 @@ body { background: #ddd;}
                 {% endif %}
             </div>
             <div class="span4">
-                <div class="submission-title">{{ submission.title }}</div>
-                <div class="poster"><a href="#">{{ submission.user.user_name }}</a></div>
+                <div class="submission-title"><a href="{{ url("/submissions/submission/%s" % submission.id) }}" />{{ submission.title }}</a></div>
+
+                <div class="poster"><a href="#">poster-info</a></div>
+
+                <div class="info">
+                    <div class="row-fluid">
+                        <div class="comments span1">{{ submission.comments.count() }}</div>
+                        <div class="likes span1">{{ submission.votes.filter_by(liked=True).count() }}</div>
+                    </div>
+                </div>
+
                 <div class="voting">
                     <div class="row-fluid">
                         <div class="span4 votebox"><a href="{{ url("/submissions/vote/%s/good" % submission.id) }}" /><img src="{{ url("/images/sad.png") }}" /></a></div>
                         <div class="span4 votebox"><a href="{{ url("/submissions/vote/%s/bad" % submission.id) }}"><img src="{{ url("/images/happy.png") }}" /></a></div>
                     </div>
                 </div>
+
             </div>
         </div>
         <hr style="color: gray;" />

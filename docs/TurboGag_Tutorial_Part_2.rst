@@ -217,7 +217,6 @@ Now visit http://127.0.0.1:8080/submissions/new and try creating a new submissio
 
 So far so good. Our users are able to post submissions but where do we list the submissions to visitors? Where do we approve the submissions? We are going to do that by modifying the ``index() method`` of ``RootController class`` and ``index.jinja`` template.
 
-
 .. code:: python
 
     from turbogag.model import DBSession
@@ -228,5 +227,25 @@ So far so good. Our users are able to post submissions but where do we list the 
         @expose('turbogag.templates.index')
         def index(self):
             """Handle the front-page."""
-            submissions = DBSession.query(Submission).filter_by(is_active=True).all()
+            submissions = Submission.list_submissions(offset=0, limit=10)
             return dict(submissions=submissions)
+
+Open up your ``turbogag/model/submission.py`` file and edit ``Submission`` model like the following:
+
+.. code:: python
+
+    # add to the imports section
+    from sqlalchamy.sql import func, select
+    from turbogag.model.auth import User
+
+    class Submission(DeclarativeBase):
+        # column definitions
+            
+        @classmethod
+        def list_submissions(self, offset=0, limit=10):
+            comments_count_query = select([func.count(Comment.id)]).where(Comment.submission_id == Submission.id).label("comments_count")
+            vote_count_query = select([func.count(Vote.id)]).where(Vote.submission_id == Submission.id).where(Vote.liked == True).label("votes_count")
+            submissions = DBSession.query(Submission.id, Submission.title, Submission.content_type, Submission.image_url,
+                                Submission.video_url, comments_count_query, vote_count_query).offset(offset).limit(limit).all()
+            return submissions
+
