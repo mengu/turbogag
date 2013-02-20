@@ -227,25 +227,104 @@ So far so good. Our users are able to post submissions but where do we list the 
         @expose('turbogag.templates.index')
         def index(self):
             """Handle the front-page."""
-            submissions = Submission.list_submissions(offset=0, limit=10)
+            submissions = DBSession.query(Submission).all()
             return dict(submissions=submissions)
 
-Open up your ``turbogag/model/submission.py`` file and edit ``Submission`` model like the following:
+And this is going to be your ``turbogag/templates/index.jinja`` file:
 
-.. code:: python
+.. code:: jinja
 
-    # add to the imports section
-    from sqlalchamy.sql import func, select
-    from turbogag.model.auth import User
+    {% extends "master.jinja" %}
 
-    class Submission(DeclarativeBase):
-        # column definitions
-            
-        @classmethod
-        def list_submissions(self, offset=0, limit=10):
-            comments_count_query = select([func.count(Comment.id)]).where(Comment.submission_id == Submission.id).label("comments_count")
-            vote_count_query = select([func.count(Vote.id)]).where(Vote.submission_id == Submission.id).where(Vote.liked == True).label("votes_count")
-            submissions = DBSession.query(Submission.id, Submission.title, Submission.content_type, Submission.image_url,
-                                Submission.video_url, comments_count_query, vote_count_query).offset(offset).limit(limit).all()
-            return submissions
+    {% block master_title %}
+    TurboGag.com
+    {% endblock %}
 
+
+    {% block contents %}
+    <style>
+    body { background: #ddd;}
+    .content { background: #fff; }
+    .submission {
+        padding: 20px;
+    }
+    .submission-title {
+        font-size: 31.5px;
+    }
+    .voting {
+        margin-top: 20px;
+    }
+    .votebox {
+        background: #ccc;
+        text-align: center;
+        height: 64px;
+        cursor: pointer;
+    }
+    .votebox:hover {
+        
+    }
+    .votebox img {
+        padding-top: 20px;
+    }
+    .info, .poster {
+        margin-top: 20px;
+    }
+    .comments {
+        background: url({{ url("/images/comments.png") }}) no-repeat 2px;
+        margin-left: -2px; 
+        display: inline-block; 
+        padding-left: 19px; 
+        padding-bottom: 5px;
+    }
+    .likes {
+        background: url({{ url("/images/happy2.png") }}) no-repeat;
+        margin-left: -2px; 
+        display: inline-block; 
+        padding-left: 19px; 
+        padding-bottom: 5px;
+    }
+    </style>
+    <div class="row-fluid" >
+
+        <div class="span10 content">
+            {% for submission in submissions %}
+            <div class="row-fluid submission">
+                <div class="span8">
+                    {% if submission.content_type == "image" %}
+                    <img src="{{ submission.image_url }}" />
+                    {% else %}
+                    {% endif %}
+                </div>
+                <div class="span4">
+                    <div class="submission-title"><a href="{{ url("/submissions/submission/%s" % submission.id) }}" />{{ submission.title }}</a></div>
+
+                    <div class="poster"><a href="#">poster-info</a></div>
+
+                    <div class="info">
+                        <div class="row-fluid">
+                            <div class="comments span1">{{ submission.comments.count() }}</div>
+                            <div class="likes span1">{{ submission.votes.filter_by(liked=True).count() }}</div>
+                        </div>
+                    </div>
+
+                    <div class="voting">
+                        <div class="row-fluid">
+                            <div class="span4 votebox"><a href="{{ url("/submissions/vote/%s/good" % submission.id) }}" /><img src="{{ url("/images/sad.png") }}" /></a></div>
+                            <div class="span4 votebox"><a href="{{ url("/submissions/vote/%s/bad" % submission.id) }}"><img src="{{ url("/images/happy.png") }}" /></a></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <hr style="color: gray;" />
+            {% endfor %}
+        </div>
+        
+        <div class="span2">
+        </div>
+
+    </div>
+
+    <div class="notice"> Thank you for choosing TurboGears.</div>
+
+    {% endblock %}
