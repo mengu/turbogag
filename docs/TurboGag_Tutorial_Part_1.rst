@@ -182,7 +182,13 @@ This is going to be our stylesheet, open your ``turbogag/public/css/style.css`` 
 
 .. code:: css
 
-    body{background:#ddd;}.content{background:#fff;}.submission{padding:20px;}.submission-title{font-size:18px;margin-bottom:8px;}.submission-title a{color:#222;text-decoration:none;}.voting{margin-top:20px;}.votebox{background:#ddd;text-align:center;height:64px;cursor:pointer;width:100px;float:left;}.votebox:hover{background:#ccc;}.votebox img{padding-top:20px;}.vb-first{border-right:1px solid #eee;border-top-left-radius:5px;}.vb-sec{border-top-right-radius:5px;margin:0!important;}.sharing{border-top:1px solid #eee;border-bottom-right-radius:5px;border-bottom-left-radius:5px;background:#ddd;width:191px;padding:5px;}.comments,.likes{color:#999;font-size:11px;}.comments{background:url(/images/comment.png) no-repeat -1px;margin-left:-2px;display:inline-block;padding-left:30px;padding-bottom:5px;}.likes{background:url(/images/heart.png) no-repeat;margin-left:10px;display:inline-block;padding-left:30px;padding-bottom:5px;}.footer{margin-top:45px;border-top:1px solid #e5e5e5;padding:35px 0 36px;}.footer p{margin-bottom:0;color:#555;}.poster,.info{margin-bottom:8px;}
+    body{background:#ddd;}.content{background:#fff;}.submission{padding:20px;}.submission-title{font-size:18px;margin-bottom:8px;}.submission-title a{color:#222;text-decoration:none;}
+    .voting{margin-top:20px;}.votebox{background:#ddd;text-align:center;height:64px;cursor:pointer;width:100px;float:left;}.votebox:hover{background:#ccc;}.votebox img{padding-top:20px;}
+    .vb-first{border-right:1px solid #eee;border-top-left-radius:5px;}.vb-sec{border-top-right-radius:5px;margin:0!important;}
+    .sharing{border-top:1px solid #eee;border-bottom-right-radius:5px;border-bottom-left-radius:5px;background:#ddd;width:191px;padding:5px;}.comments,.likes{color:#999;font-size:11px;}
+    .comments{background:url(/images/comment.png) no-repeat -1px;margin-left:-2px;display:inline-block;padding-left:30px;padding-bottom:5px;}
+    .likes{background:url(/images/heart.png) no-repeat;margin-left:10px;display:inline-block;padding-left:30px;padding-bottom:5px;}
+    .footer{margin-top:45px;border-top:1px solid #e5e5e5;padding:35px 0 36px;}.footer p{margin-bottom:0;color:#555;}.poster,.info{margin-bottom:8px;}
 
 The master template
 ~~~~~~~~~~~~~~~~~~~
