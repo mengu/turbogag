@@ -260,15 +260,27 @@ And this is going to be your ``turbogag/templates/index.jinja`` file:
 
                     <div class="info">
                         <div class="row-fluid">
-                            <div class="comments span1">{{ submission.comments.count() }}</div>
-                            <div class="likes span1">{{ submission.votes.filter_by(liked=True).count() }}</div>
+                            <div class="span1"><span class="comments">{{ submission.comments.count() }}</span></div>
+                            <div class="span1" style="margin-left: 25px;"><span class="likes">{{ submission.votes.filter_by(liked=True).count() }}</span></div>
                         </div>
                     </div>
 
                     <div class="voting">
                         <div class="row-fluid">
-                            <div class="span4 votebox"><a href="{{ url("/submissions/vote/%s/good" % submission.id) }}" /><img src="{{ url("/images/sad.png") }}" /></a></div>
-                            <div class="span4 votebox"><a href="{{ url("/submissions/vote/%s/bad" % submission.id) }}"><img src="{{ url("/images/happy.png") }}" /></a></div>
+                            <div class="votebox vb-first"><a href="{{ url("/submissions/vote/%s/good" % submission.id) }}" /><img src="{{ url("/images/sad.png") }}" /></a></div>
+                            <div class="votebox vb-sec"><a href="{{ url("/submissions/vote/%s/bad" % submission.id) }}"><img src="{{ url("/images/happy.png") }}" /></a></div>
+                        </div>
+                    </div>
+
+                    <div class="sharing">
+                        <div class="row-fluid">
+                            <div class="span6">
+                                    <a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ tg.url("/submissions/submission/%s" % submission.id) }}" data-via="turbogag" data-lang="en">Tweet</a>
+                                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                            </div>
+                            <div class="span6">
+                                <div class="fb-like" data-href="{{ tg.url("/submissions/submission/%s" % submission.id) }}" data-send="false" data-layout="button_count" data-width="125" data-show-faces="false"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -286,3 +298,5 @@ And this is going to be your ``turbogag/templates/index.jinja`` file:
     <div class="notice"> Thank you for choosing TurboGears.</div>
 
     {% endblock %}
+
+
