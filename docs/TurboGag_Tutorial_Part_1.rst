@@ -171,85 +171,98 @@ But that did only generate authentication related tables? How come it didn't gen
 Now re-run the "paster setup-app development.ini" command and you will see a stream of SQLAlchemy CREATE TABLE output.
 
 
-The TurboGears shell
---------------------
+Preparements
+------------
+Before developing the application there will be somethings we are going modify at the beginning such as the stylesheet and the master template which our templates will extend.
 
-.. code:: bash
-    
-    paster shell development.ini
+Modifying the stylesheet
+~~~~~~~~~~~~~~~~~~~~~~~~
+This is going to be our stylesheet, open your ``turbogag/public/css/style.css`` and replace it.
 
-This command lets you enter the TurboGears shell. Within this shell TurboGears starts a Python shell with your package included. Do you think it's time to insert some channels? Type the following into your shell.
 
-.. code:: bash
+.. code:: css
+    body{background:#ddd;}.content{background:#fff;}.submission{padding:20px;}.submission-title{font-size:18px;margin-bottom:8px;}.submission-title a{color:#222;text-decoration:none;}.voting{margin-top:20px;}.votebox{background:#ddd;text-align:center;height:64px;cursor:pointer;width:100px;float:left;}.votebox:hover{background:#ccc;}.votebox img{padding-top:20px;}.vb-first{border-right:1px solid #eee;border-top-left-radius:5px;}.vb-sec{border-top-right-radius:5px;margin:0!important;}.sharing{border-top:1px solid #eee;border-bottom-right-radius:5px;border-bottom-left-radius:5px;background:#ddd;width:191px;padding:5px;}.comments,.likes{color:#999;font-size:11px;}.comments{background:url(/images/comment.png) no-repeat -1px;margin-left:-2px;display:inline-block;padding-left:30px;padding-bottom:5px;}.likes{background:url(/images/heart.png) no-repeat;margin-left:10px;display:inline-block;padding-left:30px;padding-bottom:5px;}.footer{margin-top:45px;border-top:1px solid #e5e5e5;padding:35px 0 36px;}.footer p{margin-bottom:0;color:#555;}.poster,.info{margin-bottom:8px;}
 
-    from turbogag.model import DBSession, Channel
-    import transaction
-
-    cool = Channel(channel_name="cool")
-    cute = Channel(channel_name="cute")
-    lol = Channel(channel_name="lol")
-    want = Channel(channel_name="want")
-    wtf = Channel(channel_name="wtf")
-    DBSession.add_all([cool, cute, lol, want, wtf])
-    DBSession.flush()
-    transaction.commit()
-
-This way we are creating our lovely channels. Would you like a taste of querying SQLAlchemy models? Yes, you would. You are dying to find out how this thing works. Let's just slow down. What would you want to learn? 
-
-Select all channels
+The master template
 ~~~~~~~~~~~~~~~~~~~
+Open up your ``turbogag/templates/master.jinja`` and replace it with the following code:
 
-.. code:: python
+.. code:: jinja
 
-    # this will select all channels
-    DBSession.query(Channel).all()
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="charset={{ response.charset }}"/>
+        {% block master_head %}
+        {% endblock %}
+        <title>{% block master_title %}{% endblock %} - Powered by TurboGears</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="{{tg.url('/css/bootstrap.min.css')}}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="{{tg.url('/css/bootstrap-responsive.min.css')}}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="{{tg.url('/css/style.css')}}" />
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ tg.url('/javascript/bootstrap.js') }}"></script>
+    </head>
 
-Select a channel with id 2
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+    <body>
+        <div class="container">
 
-.. code:: python
+            <!-- Navbar -->
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="container">
+                        <a class="brand" href="#"><img src="{{tg.url('/images/turbogears_logo.png')}}" alt="TurboGears 2"/>turbogears2</a>
+                        <ul class="nav nav-pills">
+                            <li class="{% if page == 'index' %}active{% endif %}"><a href="{{ tg.url('/') }}">Welcome</a></li>
+                            <li><a href="{{ tg.url('/about') }}" class="{% if page == 'about' %}active{% endif %}">About</a></li>
+                            <li><a href="{{ tg.url('/data') }}" class="{% if page == 'data' %}active{% endif %}">Serving Data</a></li>
+                            <li><a href="{{ tg.url('/environ') }}" class="{% if page == 'environ' %}active{% endif %}">WSGI Environment</a></li>
+                        </ul>
 
-    DBSession.query(Channel).filter(Channel.id == 2).one()
-    # or
-    DBSession.query(Channel).filter(id=2).first()
+                        {% if tg.auth_stack_enabled %}
+                            <ul class="nav nav-pills pull-right">
+                                {% if request.identity %}
+                                    <li><a href="{{tg.url('/logout_handler')}}">Logout</a></li>
+                                    <li><a href="{{tg.url('/admin')}}">Admin</a></li>
+                                {% else %}
+                                    <li><a href="{{tg.url('/login')}}">Login</a></li>
+                                {% endif %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
 
+            <!-- Flash messages -->
 
-Order the channels
-~~~~~~~~~~~~~~~~~~
+            {% with flash=tg.flash_obj.render('flash', use_js=False) %}
+                <div class="row"><div class="span8 offset2">
+                    {{ flash|safe }}
+                </div></div>
+            {% endwith %}
 
-.. code:: python
+            {% block contents %}
+            {% endblock %}
 
-    # order channels by channel id descending
-    DBSession.query(Channel).order_by(Channel.id.desc()).all()
+            <!-- End of main_content -->
+            <footer class="footer hidden-tablet hidden-phone">
+                <a class="pull-right" href="http://www.turbogears.org/2.2/"><img style="vertical-align:middle;" src="{{tg.url('/images/under_the_hood_blue.png')}}" alt="TurboGears 2" /></a>
+                <p>Copyright &copy; {{ tmpl_context.project_name|default('TurboGears2') }} {{h.current_year()}}</p>
+            </footer>
+        </div>
 
+        <div id="fb-root"></div>
+        <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>
+    </body>
+    </html>
 
-Select only 3 channels
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. code:: python
-
-    # select 3 channels ordered by channel names ascending
-    DBSession.query(Channel).order_by(Channel.channel_name.asc()).limit(3).all()
-
-Update a channel name
-~~~~~~~~~~~~~~~~~~~~~
-
-.. code:: python
-
-    channel = DBSession.query(Channel).filter_by(id=1).one()
-    channel.channel_name = "so cool"
-    DBSession.add(channel)
-
-Delete a channel
-~~~~~~~~~~~~~~~~
-
-.. code:: python
-
-    DBSession.query(Channel).filter_by(id=6).delete()
-
-No! That is not all you can do with SQLAlchemy. You can create many more complex queries with it. SQLAlchemy is a very very powerful tool. If you would like to play with it, I will glady wait. Go read some tutorials or try to create that SQL that you could not create with other ORMs. SQLAlchemy will not disappoint you.
-
-Next, we are going to work on controllers and views. This is all for now. Take a deep breath and enjoy what you have accomplished so far.
+Next, we are going to inspect the TurboGears shell.
 
 Continue to Part 2.
 
