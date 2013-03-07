@@ -20,3 +20,6 @@ pip-log.txt
 # Unit test / coverage reports
 .coverage
 .tox
+
+# ide
+.idea/
