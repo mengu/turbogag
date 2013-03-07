@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 """Main Controller"""
+from sprox.tablebase import TableBase
+from sprox.widgets import SproxDataGrid
 
 from tg import expose, flash, require, url, lurl, request, redirect, tmpl_context
 from tg.i18n import ugettext as _, lazy_ugettext as l_
 from tg import predicates
+from tgext.admin import CrudRestControllerConfig
+from tgext.crud import CrudRestController
 from turbogag import model
 from turbogag.controllers.secure import SecureController
 from turbogag.model import DBSession, metadata
@@ -17,6 +21,31 @@ from turbogag.model import DBSession
 from turbogag.model.submission import Submission
 
 __all__ = ['RootController']
+
+class TurboGagGrid(SproxDataGrid):
+    css_class = "table table-striped table-bordered"
+
+
+class SubmissionCrudRestController(CrudRestController):
+
+    @expose("turbogag.templates.admin.get_all", inherit=True)
+    #@paginate('value_list', items_per_page=7)
+    def get_all(self, *args, **kwargs):
+        return super(SubmissionCrudRestController, self).get_all(*args, **kwargs)
+
+class MyAdminConfig(TGAdminConfig):
+
+    class submission(CrudRestControllerConfig):
+        defaultCrudRestController = SubmissionCrudRestController
+        class table_type(TableBase):
+            __base_widget_type__ = TurboGagGrid
+            __entity__ = Submission
+            __xml_fields__ = ["channel"]
+
+            def channel(self, obj):
+                return obj.channel.channel_name
+
+
 
 
 class RootController(BaseController):
@@ -34,7 +63,7 @@ class RootController(BaseController):
 
     """
     secc = SecureController()
-    admin = AdminController(model, DBSession, config_type=TGAdminConfig)
+    admin = AdminController(model, DBSession, config_type=MyAdminConfig)
 
     error = ErrorController()
     submissions = SubmissionsController()
