@@ -3,19 +3,19 @@ TurboGag Tutorial
 
 Let's learn TurboGears by example. 
 
-Since Reddit is already open sourced we are going to teach you how to build a 9gag clone with TurboGears. We are going to let our users share and like funny and interesting photos and videos. Our users will be able to signup via Facebook and vote the submissions. After you are done with this tutorial you will learn:
+Since Reddit is already open source, we are going to teach you to build a 9gag clone with TurboGears. We are going to let our users share and like funny and interesting photos and videos. Our users will be able to signup via Facebook and vote on the submissions. This tutorial will teach you how to:
 
-* Working with built-in authentication and authorization.
-* Working with forms and validation.
-* Using sessions
-* Using TurboGears admin panel.
-* Using SQLAlchemy.
+* Work with built-in authentication and authorization.
+* Work with forms and validation.
+* Use sessions
+* Use TurboGears admin panel.
+* Use SQLAlchemy.
 
-By reading this tutorial, you hereby acknowledge you have a working TurboGears installation. It sounded like very enterprisey, didn't it? Fear not, installing TurboGears will only take a few minutes depending on your internet connection.
+You should have a working TurboGears installation to complete this tutorial. It sounded like very enterprisey, didn't it? Fear not, installing TurboGears will only take a few minutes depending on your internet connection.
 
 Requirements before installation
 --------------------------------
-You need Python 2.x and virtualenv in your system in order to install TurboGears.
+You need Python 2.x and virtualenv in your system to install TurboGears.
 
     1. `Download Python <http://www.python.org/getit/>`_
 
@@ -26,10 +26,10 @@ You need Python 2.x and virtualenv in your system in order to install TurboGears
 
 Why virtualenv?
 ~~~~~~~~~~~~~~~
-Often it's the case that the Python packages in your system path might clash. Let's say a package called X has a dependency Y. Another package called Z depends on Y as well but to a newer version of Y. When you install the newer Y, the library X stops working because Y has a change that breaks it. In order to prevent this, you create a virtual environment which only cares about the Python packages in itself and not the system path. This way it prevents your Python packages clashing and let them work in a harmony you create.
+Often Python package versions in your system path might clash. If package X has a dependency Y and another package called Z depends on a newer version of Y, installing the newer Y breaks package X. To prevent this, you create a virtual environment which only cares about the Python packages in itself and not the system path. This prevents your Python packages from clashing and lets them work in harmony.
 
 
-Now, let's install TurboGears. We are going to install the latest stable version of TurboGears which is 2.2.2 right now.
+Let's install TurboGears. We are going to install the latest stable version of TurboGears which is currently version 2.2.2.
 
 .. code:: bash
 
@@ -43,12 +43,12 @@ Now, let's install TurboGears. We are going to install the latest stable version
     source bin/activate
     easy_install -i http://tg.gy/current tg.devtools
 
-We are installing TurboGears from the index http://tg.gy/current which has all the TurboGears dependencies with their specific and working versions. It is important that we are specifying the index, otherwise it would install a newer version of any dependency which might not be working with TurboGears.
+We are installing TurboGears from the index http://tg.gy/current which has all the TurboGears dependencies with their specific and working versions. It is important that we specify the index, otherwise it could install a newer version of a dependency which might not work with TurboGears.
 
 Creating the project
 --------------------
 
-There are many options for you to quickstart a TurboGears project as however you wish. For example, you can disable authentication for a project, or use Mako or Jinja for templating or generate just a single file application. For more information run the ``paster quickstart -h`` command.
+There are many options for quickstarting a TurboGears project. You can disable authentication for a project, use Mako or Jinja for templating or generate a single file application. For more information run the ``paster quickstart -h`` command.
 
 For the TurboGag project, we are going to use Jinja templates and the built-in authentication and authorization. Let's generate our project.
 
@@ -66,36 +66,36 @@ As you remember from installing TurboGears, you have to create a virtual environ
 The application skeleton
 ------------------------
 
-Your layout of TurboGag application will be something like the following image. The skeleton should make sense to you since controllers directory is where you create your controller classes and the same applies for models and templates.
+Your layout of TurboGag application should be similar to the following image. The skeleton should make sense to you since controllers directory is where you create your controller classes and the same applies for models and templates.
 
 [Skeleton screenshot here]
 
-Another good thing for us is that we generated an application with user authentication and authorization. This will help us build the TurboGag application a lot faster. We won't have to deal with logging the user in, checking their permissions, etc. The only thing we are going to do is building a user registration form.
+Since we generated an application with user authentication and authorization, this will help us build the TurboGag application much faster. We won't have to deal with logging the user in, checking their permissions, etc. The only thing we need to do is build a user registration form.
 
 Running the application
 -----------------------
-Before starting the work on the application, let's take a quick look at what the quickstarted application has done for us. Run the following command in order to serve the application.
+Before starting work on the application, let's take a quick look at what the quickstarted application has done for us. Run the following command in order to serve the application.
 
 .. code::python
 
     python setup.py develop
     paster serve development.ini
 
-The first command will introduce your application as a package to Python library path so all your imports and access requests will work. The second command will start an HTTP server for you to browse your application. Yes, indeed TurboGears twitter-bootsrapped your application for you in advanced. You can enjoy what it has to offer you.
+The first command will introduce your application as a package to Python library path so all your imports and access requests will work. The second command will start an HTTP server for you to browse your application. Yes indeed, TurboGears twitter-bootsrapped your application for you in advance.
 
 Setting up the database
 -----------------------
-Since TurboGears has full support for SQLAlchemy and SQLAlchemy supports almost every database server, this step is going to be *very easy* for you. TurboGears configuration files live in .ini files such as development.ini for development and production.ini for production. Open up your development.ini file and go to line 62. You will see the SQLAlchemy uri for SQLite. By default TurboGears provides you a skeleton for which all the stack is right there for you, waiting for you to do your magic. The line is like the following:
+Since TurboGears has full support for SQLAlchemy and SQLAlchemy supports almost every database server, this step is going to be *very easy* for you. TurboGears configuration files live in .ini files such as development.ini for development and production.ini for production. Open up your development.ini file and go to line 62. You will see the SQLAlchemy URI for SQLite. By default TurboGears provides a skeleton for the stack for you waiting for you to do your magic. The line looks like:
 
 ::
 
     sqlalchemy.url = sqlite:///%(here)s/devdata.db
 
-We are more than fine to use SQLite for development purposes however If you want to use MySQL or PostgreSQL, please read `SQLAlchemy documentation page on database uris <http://docs.sqlalchemy.org/en/rel_0_8/core/engines.html#database-urls>`_.
+SQLite is fine for development purposes, however if you want to use MySQL or PostgreSQL, please read `SQLAlchemy documentation page on database uris <http://docs.sqlalchemy.org/en/rel_0_8/core/engines.html#database-urls>`_.
 
 Creating the models
 -------------------
-Before moving on making the application work in the browser, let's just create the models we are going to use. In TurboGag application we will have a Submission model, a User model, a Vote model and a Comment model. Luckily we have user model already generated for us.
+Before running the application in the browser, let's create the models we are going to use. In the TurboGag application we have a Submission model, User model, Vote model and Comment model. Our user model is already generated for us.
 
 .. code:: python
 
@@ -154,13 +154,13 @@ Before moving on making the application work in the browser, let's just create t
 
 
 
-"Where do I add the models?" you wonder. Create a Python file called ``submission.py`` in ``turbogag/model`` directory and write the down the codes from above. I hear the next question that pops in your head. How do I generate my models and my database? TurboGears extensions for paster are very rich. You can generate your models and databases with:
+"Where do I add the models?" you wonder. Create a Python file called ``submission.py`` in ``turbogag/model`` directory and copy the code from above. I hear the next question that pops into your head. How do I generate my models and my database? TurboGears extensions for paster are very rich. You can generate your models and databases with:
 
 .. code:: bash
 
     paster setup-app development.ini
 
-But that did only generate authentication related tables? How come it didn't generate the other tables? It's because that we haven't imported our models from ``turbogag/model/submission.py`` to ``turbogag/model/__init__.py`` file. Let's do it.
+But that only generated the authentication related tables? How come it didn't generate the other tables? It's because we haven't imported our models from ``turbogag/model/submission.py`` to ``turbogag/model/__init__.py`` file. Let's do it.
 
 .. code:: python
 
@@ -171,9 +171,9 @@ But that did only generate authentication related tables? How come it didn't gen
 Now re-run the "paster setup-app development.ini" command and you will see a stream of SQLAlchemy CREATE TABLE output.
 
 
-Preparements
+Preparations
 ------------
-Before developing the application there will be somethings we are going modify at the beginning such as the stylesheet and the master template which our templates will extend.
+Before developing the application there are things we need to modify such as the stylesheet and the master template which our templates will extend.
 
 Modifying the stylesheet
 ~~~~~~~~~~~~~~~~~~~~~~~~
