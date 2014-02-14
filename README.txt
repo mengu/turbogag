@@ -1,5 +1,4 @@
-This file is for you to describe the turbogag application. Typically
-you would include information such as the information below:
+This tutorial walks you through the steps of creating a 9gag clone in Turbogears.
 
 Installation and Setup
 ======================

@@ -8,7 +8,7 @@ The TurboGears shell
     
     paster shell development.ini
 
-This command lets you enter the TurboGears shell. Within this shell TurboGears starts a Python shell with your package included. Do you think it's time to insert some channels? Type the following into your shell.
+This command lets you enter the TurboGears shell. Within this shell, TurboGears starts a Python shell with your package included. Do you think it's time to insert some channels? Type the following into your shell.
 
 .. code:: bash
 
@@ -24,7 +24,7 @@ This command lets you enter the TurboGears shell. Within this shell TurboGears s
     DBSession.flush()
     transaction.commit()
 
-This way we are creating our lovely channels. Would you like a taste of querying SQLAlchemy models? Yes, you would. You are dying to find out how this thing works. Let's just slow down. What would you want to learn? 
+This way we are creating our channels. Would you like a taste of querying SQLAlchemy models? Yes, you would. You are dying to find out how this thing works. Let's just slow down. What would you like to learn? 
 
 Select all channels
 ~~~~~~~~~~~~~~~~~~~
@@ -77,7 +77,7 @@ Delete a channel
 
     DBSession.query(Channel).filter_by(id=6).delete()
 
-No! That is not all you can do with SQLAlchemy. You can create many more complex queries with it. SQLAlchemy is a very very powerful tool. If you would like to play with it, I will glady wait. Go read some tutorials or try to create that SQL that you could not create with other ORMs. SQLAlchemy will not disappoint you.
+No! That is not all you can do with SQLAlchemy. You can create more complex queries with it. SQLAlchemy is a very, very powerful tool. If you would like to play with it, I will gladly wait. Go read some tutorials or try to create that SQL that you could not create with other ORMs. SQLAlchemy will not disappoint you.
 
 Next, we are going to work on controllers and views. This is all for now. Take a deep breath and enjoy what you have accomplished so far.
 

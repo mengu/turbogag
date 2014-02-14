@@ -3,7 +3,7 @@ TurboGag Tutorial
 
 Letting users upload submissions
 --------------------------------
-Now we are going to let users upload submissions and we are going to enjoy some reddit re-posts. TurboGears controllers are Python classes inheriting from a special class called BaseController. Giving it a meaningful name is important. For example, the Root Controller is the controller class responding to the calls of your requested url path starting with "/" right after your domain. For example http://turbogag.com/submissions automatically maps to a child controller class or a class method called submissions.
+Now we are going to let users upload submissions and we are going to enjoy some reddit re-posts. TurboGears controllers are Python classes inheriting from a special class called BaseController. Giving it a meaningful name is important. For example, the Root Controller is the controller class responding to your requested url path starting with "/" right after your domain. For example http://turbogag.com/submissions automatically maps to a child controller class or a class method called submissions.
 
 We are going to create a submissions controller but first let's decide what actions we are going to have in it. 
 
@@ -52,9 +52,9 @@ We are going to create a submissions controller but first let's decide what acti
         def delete(self, id):
             pass
 
-In the code above, we have created class methods named "new", "create", "edit", "update" and "destroy". This class methods will be available to the users in the form of http://turbogag.com/submissions/{method_name} however for now there are only two actions available for our users to play with. 
+In the code above, we created class methods named "new", "create", "edit", "update" and "destroy". This class methods will be available to the users in the form of http://turbogag.com/submissions/{method_name}. For now there are only two actions available for our users to play with. 
 
-1. In the ``new`` method we are getting a list of channels from the database and passing the channels list as a ``local template variable`` to our new.jinja template.
+1. In the ``new`` method we get a list of channels from the database and pass the channels list as a ``local template variable`` to our new.jinja template.
 2. In the ``create`` method, we let our users send request parameters ``title``, ``content_type``, ``image_url`` and ``video_url``.
 3. We are creating an instance of our ``Submission model`` and saving it to the database.
 4. We are redirecting the user to our index page with a notification we will be displaying.
@@ -76,17 +76,17 @@ Now if you re-visit http://127.0.0.1:8080/submissions/new you will be able to ac
 
 Something exposed comes this way
 --------------------------------
-If you have used Ruby on Rails, Django, Pylons or Pyramid there is a question in your head right from the beginning. I know that. Been there, done that. Where do I set my routes? TurboGears does not have a routing mechanism. "Whoa sir, I'm afraid I cannot continue" you might think. No, not yet. TurboGears uses object dispatch which means every attribute in your RootController is a path of the url. Let's inspect the previous url: http://127.0.0.1:8080/submissions/new.
+If you have used Ruby on Rails, Django, Pylons or Pyramid there is a question in your head right from the start. I know that. Been there, done that. Where do I set my routes? TurboGears does not have a routing mechanism. You might think "Whoa sir, I'm afraid I cannot continue." No, not yet. TurboGears uses object dispatch which means every attribute in your RootController is a path of the url. Let's inspect the previous url: http://127.0.0.1:8080/submissions/new.
 
 * You visit http://127.0.0.1:8080/submissions/new
 * TurboGears looks at the RootController
 * It looks for the submissions attribute in RootController
 * If it does not find an attribute or a method named submissions, it returns 404.
-* If it finds it TurboGears calls that attribute
+* If it finds it, TurboGears calls that attribute
 * It looks for another attribute "new" in SubmissionsController
 * It returns it.
 
-This basically means that you don't need to setup any routing for your application. Yes, that's right, that is totally cool. The expose decorator exposes that controller method to the web. If you don't decorate a method with "expose", it won't be accessible to the web and will just be a callable of your class.
+Basically you don't need to setup any routing for your application. Yes, that's right, that is totally cool. The expose decorator exposes that controller method to the web. If you don't decorate a method with "expose", it won't be accessible to the web and will just be a callable of your class.
 
 
 Creating templates
@@ -215,7 +215,7 @@ Now visit http://127.0.0.1:8080/submissions/new and try creating a new submissio
 .. image:: resources/new_submission.png
    :height: 500px
 
-So far so good. Our users are able to post submissions but where do we list the submissions to visitors? Where do we approve the submissions? We are going to do that by modifying the ``index() method`` of ``RootController class`` and ``index.jinja`` template.
+So far so good. Our users are able to post submissions but where do we list the submissions to visitors? Where do we approve the submissions? We are going to modify the ``index() method`` of ``RootController class`` and ``index.jinja`` template.
 
 .. code:: python
 
@@ -230,7 +230,7 @@ So far so good. Our users are able to post submissions but where do we list the 
             submissions = DBSession.query(Submission).all()
             return dict(submissions=submissions)
 
-And this is going to be your ``turbogag/templates/index.jinja`` file:
+And this is should be your ``turbogag/templates/index.jinja`` file:
 
 .. code:: jinja
 
